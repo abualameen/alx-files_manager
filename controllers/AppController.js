@@ -7,7 +7,8 @@ const AppController = {
         try {
             const isRedisAlive = await redisClient.isAlive();
             const isDBAlive = await dbClient.isAlive();
-
+            console.log(`${isRedisAlive }`);
+            console.log(`${isDBAlive }`);
             if (isRedisAlive && isDBAlive) {
                 console.log('yes');
                 res.status(200).send({ redis: true, db: true });
