@@ -3,7 +3,7 @@ const redisClient = require('../utils/redis');
 
 
 const AppController = {
-    getStatus: async(res) => {
+    getStatus: async(req, res) => {
         try {
             const isRedisAlive = await redisClient.isAlive();
             const isDBAlive = await dbClient.isAlive();
@@ -19,7 +19,7 @@ const AppController = {
         }
   
     },
-    getStats: async(res) => {
+    getStats: async (req, res) => {
         if  (dbClient.isAlive()) {
             try {
                 const usersCount = await dbClient.nbUsers();
