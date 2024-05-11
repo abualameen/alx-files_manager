@@ -46,5 +46,4 @@ class DBClient {
 const dbClient = new DBClient();
 dbClient.connect();
 
-export default dbClient;
-
+module.exports = dbClient;
