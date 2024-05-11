@@ -1,3 +1,4 @@
+import parseConnectionString from 'mongodb/lib/core/uri_parser';
 import redis from 'redis';
 class RedisClient {
     constructor() {
@@ -6,25 +7,31 @@ class RedisClient {
             port: 6379,
             debug_mode: true,
         });
-
+       
         this.client.on('error', (error) => {
             console.error('Redis Client Eroor:', error);
+            
         });
+
     }
    
     async isAlive() {
-        try {
-            const val = await new Promise((resolve, reject) => {
-                this.client.on('connect', (err, reply) => {
-                    if (err) reject(err);
-                    else resolve(reply);
-                });
-            });
-            return true;
-        }catch (err) {
-            console.error('Error', err);
-        }
-    }
+    // Return a Promise that resolves with the current connection status
+    return new Promise((resolve, reject) => {
+        this.client.on('ready', () => {
+            resolve(true);
+        });
+    });
+}
+
+    
+    
+    
+    
+    
+    
+    
+    
     
 
     async get(key) {
