@@ -5,12 +5,14 @@ const dbClient = require('../utils/db');
 
 
 const AppController = {
-    getStatus: async(req, res) => {
+    getStatus: async (req, res) => {
         try {
             const isRedisAlive = await redisClient.isAlive();
             const isDBAlive = await dbClient.isAlive();
-            console.log(`${isRedisAlive }`);
-            console.log(`${isDBAlive }`);
+    
+            console.log('isRedisAlive:', isRedisAlive);
+            console.log('isDBAlive:', isDBAlive);
+    
             if (isRedisAlive && isDBAlive) {
                 console.log('yes');
                 res.status(200).send({ redis: isRedisAlive, db: isDBAlive });
@@ -21,7 +23,6 @@ const AppController = {
             console.error('Error checking status:', error);
             res.status(500).send('Internal Server Error');
         }
-  
     },
     getStats: async (req, res) => {
         if  (dbClient.isAlive()) {
