@@ -32,24 +32,24 @@ class DBClient {
     return this.isConnected;
   }
 
-//   async nbUsers() {
-//     if (!this.isConnected) {
-//       throw new Error('Not connected to MongoDB');
-//     }
-//     const collection = this.db.collection('users');
-//     const count = await collection.countDocuments();
-//     return count;
-//   }
+  async nbUsers() {
+    if (!this.isConnected) {
+      throw new Error('Not connected to MongoDB');
+    }
+    const collection = this.db.collection('users');
+    const count = await collection.countDocuments();
+    return count;
+  }
 
-//   async nbFiles() {
-//     if (!this.isConnected) {
-//       throw new Error('Not connected to MongoDB');
-//     }
-//     const collection = this.db.collection('files');
-//     const count = await collection.countDocuments();
-//     return count;
-//   }
-// }
+  async nbFiles() {
+    if (!this.isConnected) {
+      throw new Error('Not connected to MongoDB');
+    }
+    const collection = this.db.collection('files');
+    const count = await collection.countDocuments();
+    return count;
+  }
+}
 
 const dbClient = new DBClient();
 dbClient.connect();
