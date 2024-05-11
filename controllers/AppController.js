@@ -11,7 +11,7 @@ const AppController = {
             console.log(`${isDBAlive }`);
             if (isRedisAlive || isDBAlive) {
                 console.log('yes');
-                res.status(200).send({ redis: true, db: true });
+                res.send({ redis: isRedisAlive, db: isDBAlive });
             } else {
                 res.status(500).send('Internal server Error');
             }
