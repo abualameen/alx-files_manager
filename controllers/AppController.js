@@ -25,18 +25,21 @@ const AppController = {
         }
     },
     getStats: async (req, res) => {
-        if  (dbClient.isAlive()) {
-            try {
+        try {
+            const isDBAlive = await dbClient.isAlive();
+            if (isDBAlive) {
                 const usersCount = await dbClient.nbUsers();
                 const filesCount = await dbClient.nbFiles();
                 res.send({ users: usersCount, files: filesCount });
-            } catch (error) {
-                console.error('Error fetching stats:', error);
-                res.status(500).send('Internal Server Error');
+            } else {
+                res.status(500).send('Database is not alive');
             }
-
+        } catch (error) {
+            console.error('Error fetching stats:', error);
+            res.status(500).send('Internal Server Error');
         }
     }
+    
 };
 
 module.exports = AppController;
