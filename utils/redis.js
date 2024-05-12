@@ -21,9 +21,7 @@ class RedisClient {
     });
   }
 
-  async isAlive() {
-    return this.isConnected;
-  }
+
 
   async get(key) {
     return new Promise((resolve, reject) => {
@@ -60,7 +58,11 @@ class RedisClient {
       });
     });
   }
+  async isAlive() {
+    return this.isConnected;
+  }
 }
+
 
 const redisClient = new RedisClient();
 export default redisClient;
