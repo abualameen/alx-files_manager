@@ -30,7 +30,7 @@ class RedisClient {
                 if (i >= 10) {
                     reject()
                 }
-                else if(!dbClient.isAlive()) {
+                else if(!this.isAlive()) {
                     repeatFct()
                 }
                 else {
