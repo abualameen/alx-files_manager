@@ -5,7 +5,6 @@ class RedisClient {
     this.client = redis.createClient({
       host: 'localhost',
       port: 6379,
-      debug_mode: true,
     });
     this.isConnected = false;
 
