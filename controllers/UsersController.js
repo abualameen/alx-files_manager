@@ -5,6 +5,7 @@ const UsersController = {
     postNew: async (req, res) => {
         try {
             const { email, password } = req.body;
+            console.log(`this is the ${email}`)
             
             if (!email) {
                 return res.status(400).send({ error: 'Missing email' });
