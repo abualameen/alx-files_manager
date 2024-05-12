@@ -19,7 +19,7 @@ const UsersController = {
                 return res.status(400).send({ error: 'Already exit' });
             }
             const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-            const newUser = await dbClient.db.collection('users').inserOne({ email, password: hashedPassword });
+            const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
             res.status(201).json({ id: newUser.insertedID, email });
         } catch (error) {
             console.error('Error creating user:', error);
