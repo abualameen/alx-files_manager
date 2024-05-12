@@ -17,9 +17,11 @@ class RedisClient {
     })
   }
 
-  isAlive() {
-    return !this.client?.connecting && this.client?.ready;
+  async isAlive() {
+    await new Promise(resolve => this.client.once('connect', resolve));
+    return true;
   }
+
 
 
   async get(key) {
