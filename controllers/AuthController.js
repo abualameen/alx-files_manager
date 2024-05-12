@@ -21,6 +21,7 @@ const AuthController = {
         try {
             // const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
             const user = await dbClient.db.collection('users').findOne({ email });
+            console.log(`user:${user}`)
             // const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
             if (!user) {
                 return res.status(401).json({ error: 'Unauthorized' });
@@ -35,6 +36,7 @@ const AuthController = {
             console.error('Error signing in user:', error);
             return res.status(500).json({ error: 'Internal Server Error' });
         }
+        
     },
 
     getDisconnect: async (req, res) => {
