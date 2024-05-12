@@ -12,24 +12,36 @@ class RedisClient {
     });
   }
 
-  waitConnection() {
+  async connect() {
+    try {
+      await this.client.connect();
+      this.isConnected = true;
+    } catch (error) {
+      console.error('Error connecting to MongoDB:', error);
+    }
+  }
+
+  waitConnection = () => {
     return new Promise((resolve, reject) => {
-      let attempts = 0;
-      const checkConnection = () => {
-        if (attempts >= 10) {
-          reject(new Error('Connection to Redis could not be established after 10 attempts'));
-        } else if (!this.isConnected) {
-          setTimeout(() => {
-            attempts++;
-            checkConnection();
-          }, 1000);
-        } else {
-          resolve();
-        }
-      };
-      checkConnection();
+        let i = 0;
+        const repeatFct = async () => {
+            await setTimeout(() => {
+                i += 1;
+                if (i >= 10) {
+                    reject()
+                }
+                else if(!dbClient.isAlive()) {
+                    repeatFct()
+                }
+                else {
+                    resolve()
+                }
+            }, 1000);
+        };
+        repeatFct();
     });
   }
+
 
   isAlive() {
     return this.isConnected;
