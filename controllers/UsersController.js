@@ -7,6 +7,7 @@ const UsersController = {
         
         if (!email) {
             res.status(400).send({error: 'Missing email'});
+            console.log(`email this is :${email}`)
         }
         if (!password) {
             res.status(400).send({error: 'Missing password'});
