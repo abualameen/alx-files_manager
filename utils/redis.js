@@ -13,13 +13,12 @@ class RedisClient {
     });
   }
 
-  async connect() {
-    try {
-      await this.client.connect();
+  connect() {
+    // No need to use async-await as createClient is synchronous
+    this.client.on('connect', () => {
+      console.log('Connected to Redis');
       this.isConnected = true;
-    } catch (error) {
-      console.error('Error connecting to radis:', error);
-    }
+    });
   }
 
   async isAlive() {
