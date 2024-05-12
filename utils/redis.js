@@ -17,9 +17,9 @@ class RedisClient {
     })
   }
 
-  async connect() {
+  async connectt() {
       try {
-          await this.client.connect();
+          await this.client.connectt();
           this.isConnected = true;
       } catch (error) {
           console.error('Error connecting to Redis:', error);
@@ -68,5 +68,5 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
-redisClient.connect();
+redisClient.connectt();
 export default redisClient;
