@@ -10,7 +10,7 @@ class RedisClient {
 
     // Listen for 'error' event and update isConnected status
     this.client.on('error', (error) => {
-      console.error('Redis Client Error:', error);
+      console.error('Redis Client Error:', error.message);
       this.isConnected = false; // Update isConnected status on error
     });
 
