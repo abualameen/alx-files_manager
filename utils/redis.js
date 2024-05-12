@@ -18,10 +18,13 @@ class RedisClient {
   }
 
   async isAlive() {
-    await new Promise(resolve => this.client.once('connect', resolve));
-    return true;
+    // Return a promise that resolves with the isConnected status after a delay
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(this.isConnected); // Resolve the promise with the current isConnected status
+      }, 10000); // Wait for 5 seconds before returning the connection status
+    });
   }
-
 
 
   async get(key) {
