@@ -7,41 +7,32 @@ class RedisClient {
       port: 6379,
     });
     this.isConnected = false;
+    this.client.on('connect', () => {
+      this.isConnected = true;
+    });
     this.client.on('error', (error) => {
       console.error('Redis Client Error:', error);
     });
   }
 
-  async connect() {
-    try {
-      await this.client.connect();
-      this.isConnected = true;
-    } catch (error) {
-      console.error('Error connecting to MongoDB:', error);
-    }
-  }
-
-  waitConnection = () => {
+  waitConnection() {
     return new Promise((resolve, reject) => {
-        let i = 0;
-        const repeatFct = async () => {
-            await setTimeout(() => {
-                i += 1;
-                if (i >= 10) {
-                    reject()
-                }
-                else if(!this.isAlive()) {
-                    repeatFct()
-                }
-                else {
-                    resolve()
-                }
-            }, 1000);
-        };
-        repeatFct();
+      let i = 0;
+      const repeatFct = () => {
+        setTimeout(() => {
+          i += 1;
+          if (i >= 10) {
+            reject(new Error('Connection to Redis could not be established after 10 attempts'));
+          } else if (!this.isAlive()) {
+            repeatFct();
+          } else {
+            resolve();
+          }
+        }, 1000);
+      };
+      repeatFct();
     });
   }
-
 
   isAlive() {
     return this.isConnected;
@@ -85,5 +76,4 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
-redisClient.connect();
 module.exports = redisClient;
