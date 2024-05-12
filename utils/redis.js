@@ -5,23 +5,33 @@ class RedisClient {
     this.client = redis.createClient({
       host: 'localhost',
       port: 6379,
-      debug_mode: true,
     });
     this.isConnected = false;
     this.client.on('error', (error) => {
-      console.error('Redis Client Eroor:', error);
+      console.error('Redis Client Error:', error);
     });
   }
 
-  connect() {
-    // No need to use async-await as createClient is synchronous
-    this.client.on('connect', () => {
-      console.log('Connected to Redis');
-      this.isConnected = true;
+  waitConnection() {
+    return new Promise((resolve, reject) => {
+      let attempts = 0;
+      const checkConnection = () => {
+        if (attempts >= 10) {
+          reject(new Error('Connection to Redis could not be established after 10 attempts'));
+        } else if (!this.isConnected) {
+          setTimeout(() => {
+            attempts++;
+            checkConnection();
+          }, 1000);
+        } else {
+          resolve();
+        }
+      };
+      checkConnection();
     });
   }
 
-  async isAlive() {
+  isAlive() {
     return this.isConnected;
   }
 
