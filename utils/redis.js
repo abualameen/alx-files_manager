@@ -5,26 +5,25 @@ class RedisClient {
     this.client = redis.createClient({
       host: 'localhost',
       port: 6379,
+      debug_mode: true,
     });
     this.isConnected = false;
 
+    // Listen for 'error' event and update isConnected status
     this.client.on('error', (error) => {
-      console.error('Redis Client Eroor:', error);
+      console.error('Redis Client Error:', error);
+      this.isConnected = false; // Update isConnected status on error
     });
+
+    // Listen for 'connect' event and update isConnected status
     this.client.on('connect', () => {
-      this.isConnected = true;
-    })
+      this.isConnected = true; // Update isConnected status on connection
+    });
   }
 
   async isAlive() {
-    // Return a promise that resolves with the isConnected status after a delay
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.isConnected); // Resolve the promise with the current isConnected status
-      }, 10000); // Wait for 5 seconds before returning the connection status
-    });
+    return this.isConnected;
   }
-
 
   async get(key) {
     return new Promise((resolve, reject) => {
@@ -64,5 +63,4 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
-
 export default redisClient;
