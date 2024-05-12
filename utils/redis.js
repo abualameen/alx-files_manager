@@ -7,19 +7,23 @@ class RedisClient {
       port: 6379,
       debug_mode: true,
     });
-
+    this.isConnected = false;
     this.client.on('error', (error) => {
       console.error('Redis Client Eroor:', error);
     });
   }
 
+  async connect() {
+    try {
+      await this.client.connect();
+      this.isConnected = true;
+    } catch (error) {
+      console.error('Error connecting to radis:', error);
+    }
+  }
+
   async isAlive() {
-    // Return a Promise that resolves with the current connection status
-    return new Promise((resolve) => {
-      this.client.on('ready', () => {
-        resolve(true);
-      });
-    });
+    return this.isConnected;
   }
 
   async get(key) {
