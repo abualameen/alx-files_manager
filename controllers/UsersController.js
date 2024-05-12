@@ -14,17 +14,19 @@ const UsersController = {
         return res.status(400).send({ error: 'Missing password' });
       }
 
+<<<<<<< HEAD
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
         return res.status(400).send({ error: 'Already exist' });
       }
 
-      const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-      const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-      res.status(201).json({ id: newUser.insertedId, email });
-    } catch (error) {
-      console.error('Error creating user:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+            const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+            const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
+            return res.status(201).json({ id: newUser.insertedId, email });
+        } catch (error) {
+            console.error('Error creating user:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
   },
 };
