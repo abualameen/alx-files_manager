@@ -12,21 +12,21 @@ const UsersController = {
         if (!password) {
             res.status(400).send({error: 'Missing password'});
         }
-        if (dbClient.isAlive()) {
-            try {
-                const existingUser = await dbClient.db.collection('users').findOne({ email });
-                if (existingUser) {
-                    return res.status(400).send({ error: 'Already exit' });
-                }
-                const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-                const newUser = await dbClient.db.collection('users').inserOne({ email, password: hashedPassword });
-                res.status(201).json({ id: newUser.insertedID, email });
-            } catch (error) {
-                console.error('Error creating user:', error);
-                res.status(500).json({ error: 'Inernal Server Error' });
+        // if (dbClient.isAlive()) {
+        try {
+            const existingUser = await dbClient.db.collection('users').findOne({ email });
+            if (existingUser) {
+                return res.status(400).send({ error: 'Already exit' });
             }
-
+            const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+            const newUser = await dbClient.db.collection('users').inserOne({ email, password: hashedPassword });
+            res.status(201).json({ id: newUser.insertedID, email });
+        } catch (error) {
+            console.error('Error creating user:', error);
+            res.status(500).json({ error: 'Inernal Server Error' });
         }
+
+        // }
   
     }
 };
