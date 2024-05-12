@@ -58,7 +58,7 @@ class RedisClient {
       });
     });
   }
-  async isAlive() {
+  isAlive() {
     return this.isConnected;
   }
 }
