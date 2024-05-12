@@ -44,6 +44,7 @@ class RedisClient {
 
 
   isAlive() {
+    this.waitConnection();
     return this.isConnected;
   }
 
