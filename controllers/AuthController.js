@@ -19,8 +19,8 @@ const AuthController = {
     }
 
     try {
-      const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-      const user = await dbClient.db.collection('users').findOne({ email, password: hashedPassword });
+      // const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+      const user = await dbClient.db.collection('users').findOne({ email });
       console.log(`user:${user}`);
       // const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
       if (!user) {
