@@ -19,8 +19,9 @@ const AuthController = {
         }
 
         try {
-            const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-            const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
+            // const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+            const user = await dbClient.db.collection('users').findOne({ email });
+            // const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
             if (!user) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
