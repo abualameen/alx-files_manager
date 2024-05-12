@@ -44,7 +44,6 @@ class RedisClient {
 
 
   isAlive() {
-    this.waitConnection();
     return this.isConnected;
   }
 
@@ -86,4 +85,5 @@ class RedisClient {
 }
 
 const redisClient = new RedisClient();
+redisClient.connect();
 module.exports = redisClient;
