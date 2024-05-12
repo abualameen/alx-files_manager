@@ -21,10 +21,10 @@ const UsersController = {
 
             const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
             const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-            res.status(201).json({ id: newUser.insertedId, email });
+            return res.status(201).json({ id: newUser.insertedId, email });
         } catch (error) {
             console.error('Error creating user:', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 };
