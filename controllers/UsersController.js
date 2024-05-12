@@ -3,8 +3,7 @@ const dbClient = require('../utils/db');
 
 const UsersController = {
     postNew: async (req, res) => {
-        const email = req.body.email;
-        const password = req.body.password;
+        const { email, password } = req.body;
         
         if (!email) {
             res.status(400).send({error: 'Missing email'});
