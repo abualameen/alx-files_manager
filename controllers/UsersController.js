@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
+const { ObjectId } = require('mongodb');
 
 const UsersController = {
     postNew: async (req, res) => {
@@ -44,9 +45,11 @@ const UsersController = {
                 console.log('toke2');
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            
+            const objectIdUserId = ObjectId(userId);
             // Retrieve user object from the database based on the user ID
-            const user = await dbClient.db.collection('users').findOne({ _id: userId });
+            // const user = await dbClient.db.collection('users').findOne({ _id: userId });
+            const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+
     
             if (!user) {
                 console.log('toke3');
