@@ -52,7 +52,7 @@ const FilesController = {
         } else {
             const fileData = Buffer.from(data, 'base64');
             const fileId = await dbClient.createFile(user.id, name, type, isPublic, parentId || 0, null);
-            localPath = path.join(FOLDER_PATH, `${fileId}.dat`);
+            const localPath = path.join(FOLDER_PATH, `${fileId}.dat`);
             fs.writeFileSync(localPath, fileData);
             await dbClient.updateFileLocalPath(fileId, localPath);
             const newFile = await dbClient.getFileById(fileId);
@@ -88,7 +88,7 @@ const FilesController = {
         }
 
         // Otherwise, return the file document in the response
-        res.json(file);
+        return res.json(file);
     },
 
     getIndex: async (req, res) => {
