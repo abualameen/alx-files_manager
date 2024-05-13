@@ -19,17 +19,17 @@ const AuthController = {
     }
 
     try {
-      const user = await dbClient.db.collection('users').findOne({ email });
-      console.log(`user:${user}`);
+     // const user = await dbClient.db.collection('users').findOne({ email });
+      const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+      if (user.password !== hashedPassword) {
+        return res.status(401).json({ error: 'Unauthorized' });
+        }
+      const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
       
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
-      const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-      if (user.password !== hashedPassword) {
-          return res.status(401).json({ error: 'Unauthorized' });
-      }
-
+    
       const token = uuidv4();
       const key = `auth_${token}`;
       await redisClient.set(key, user.id, 'EX', 24 * 60 * 60); // Expire in 24 hours

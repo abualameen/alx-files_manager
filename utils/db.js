@@ -41,6 +41,18 @@ class DBClient {
     const count = await collection.countDocuments();
     return count;
   }
+  async getUserByEmailAndPassword(email, hashedPassword) {
+    if (!this.isConnected) {
+      throw new Error('Not connected to MongoDB');
+    }
+    try {
+      const user = await this.db.collection('users').findOne({ email, password: hashedPassword });
+      return user;
+    } catch (error) {
+      console.error('Error retrieving user by email and password:', error);
+      throw error;
+    }
+  }
   async getUserByToken(token) {
     if (!this.isConnected) {
       throw new Error('Not connected to MongoDB');
