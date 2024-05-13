@@ -32,19 +32,23 @@ const UsersController = {
     getMe: async (req, res) => {
         const token = req.headers['X-Token']; // Ensure correct header case
         if (!token) {
+            console.log('toke1');
             return res.status(401).json({ error: 'Unauthorized' });
         }
     
         try {
             const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
+            console.log(`user id : ${userId}`);
             if (!userId) {
+                console.log('toke2');
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-    
+            
             // Retrieve user object from the database based on the user ID
             const user = await dbClient.db.collection('users').findOne({ _id: userId });
     
             if (!user) {
+                console.log('toke3');
                 return res.status(401).json({ error: 'Unauthorized' });
             }
     
