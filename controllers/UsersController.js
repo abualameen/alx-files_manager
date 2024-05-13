@@ -9,27 +9,24 @@ const UsersController = {
     try {
       const { email, password } = req.body;
 
-      // Check for missing email and password
-      if (!email || !password) {
-        return res.status(400).json({ error: 'Missing email or password' });
+      if (!email) {
+        return res.status(400).send({ error: 'Missing email' });
+      }
+      if (!password) {
+        return res.status(400).send({ error: 'Missing password' });
+      }
+      if (!email && !password) {
+        return res.status(400).send({ error: 'Missing email and Missing password' });
       }
 
-      // Check if user already exists
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ error: 'User already exists' });
+        return res.status(400).send({ error: 'Already exist' });
       }
 
-      // Hash the password
       const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-
-      // Insert new user into the database
       const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-
-      // Add user to the queue for background processing
       userQueue.add({ userId: newUser.insertedId });
-
-      // Return the user's ID and email
       return res.status(201).json({ id: newUser.insertedId, email });
     } catch (error) {
       console.error('Error creating user:', error);
@@ -44,16 +41,12 @@ const UsersController = {
     }
 
     try {
-      // Retrieve user ID from Redis
-      const userId = await redisClient.get(`auth_${token}`);
+      const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
+      
       if (!userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
-
-      // Convert userId to ObjectId
       const objectIdUserId = ObjectId(userId);
-
-      // Retrieve user object from the database based on the user ID
       const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
 
       if (!user) {
@@ -67,6 +60,7 @@ const UsersController = {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+
 };
 
 module.exports = UsersController;
