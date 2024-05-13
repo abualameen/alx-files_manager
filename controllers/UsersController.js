@@ -29,7 +29,7 @@ const UsersController = {
     },
 
     getMe: async (req, res) => {
-        const token = req.headers['x-token']; // Ensure correct header case
+        const token = req.headers['X-Token']; // Ensure correct header case
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
