@@ -20,14 +20,9 @@ const UsersController = {
         }
 
         const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-        const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-        const newUser = newUserResult.ops[0]; // Get the newly inserted document
-        return res.status(201).json({ id: newUser._id, email });
-
-        // const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-        // const newUser = await dbClient.db.collection('users').insertOne({ id: newUser.insertedId, email, password: hashedPassword });
-
-        // return res.status(201).json({ id: newUser.id, email });
+        const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
+        
+        return res.status(201).json({ id: newUser.insertedId, email });
         } catch (error) {
         console.error('Error creating user:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
