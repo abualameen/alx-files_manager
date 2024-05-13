@@ -33,7 +33,7 @@ fileQueue.process(async (job) => {
     await fs.promises.writeFile(thumbnailPath, thumbnail);
   }
 
-  // Return any relevant data
+  return send.end();
 });
 
 module.exports = fileQueue;
