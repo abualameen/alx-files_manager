@@ -25,7 +25,7 @@ const AuthController = {
             if (!user) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            if (user.id !== hashedPassword) {
+            if (user.password !== hashedPassword) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
             const token = uuidv4();
