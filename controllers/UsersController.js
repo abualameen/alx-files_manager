@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
+const { userQueue } = require('../worker');
 
 const UsersController = {
   postNew: async (req, res) => {
@@ -23,7 +24,7 @@ const UsersController = {
 
       const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
       const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-
+      userQueue.add({ userId: newUser._id });
       return res.status(201).json({ id: newUser.insertedId, email });
     } catch (error) {
       console.error('Error creating user:', error);
