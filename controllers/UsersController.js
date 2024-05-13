@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const dbClient = require('../utils/db');
+const dbClient = require('../utils/redis');
 
 const UsersController = {
     postNew: async (req, res) => {
