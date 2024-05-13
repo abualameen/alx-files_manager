@@ -41,7 +41,6 @@ class DBClient {
     const count = await collection.countDocuments();
     return count;
   }
-  
 }
 
 const dbClient = new DBClient();

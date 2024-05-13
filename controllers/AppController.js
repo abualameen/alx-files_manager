@@ -8,7 +8,7 @@ const AppController = {
       const isDBAlive = await dbClient.isAlive();
 
       if (isRedisAlive && isDBAlive) {
-        res.status(200).json({ redis: true, db: true });
+        res.status(200).json({ redis: isRedisAlive, db: isDBAlive });
       } else {
         res.status(500).json({ error: 'Internal server error' });
       }
