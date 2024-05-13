@@ -16,6 +16,9 @@ const UsersController = {
       if (!password) {
         return res.status(400).send({ error: 'Missing password' });
       }
+      if (!email && !password) {
+        return res.status(400).send({ error: 'Missing email and Missing password' });
+      }
 
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
