@@ -8,13 +8,13 @@ const AppController = {
       const isDBAlive = await dbClient.isAlive();
 
       if (isRedisAlive && isDBAlive) {
-        res.status(200).json({ redis: isRedisAlive, db: isDBAlive });
+        return res.status(200).json({ redis: isRedisAlive, db: isDBAlive });
       } else {
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
       }
     } catch (error) {
       console.error('Error checking status:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      return res.status(500).json({ error: 'Internal server error' });
     }
   },
   getStats: async (req, res) => {
@@ -22,10 +22,10 @@ const AppController = {
       try {
         const usersCount = await dbClient.nbUsers();
         const filesCount = await dbClient.nbFiles();
-        res.status(200).json({ users: usersCount, files: filesCount });
+        return res.status(200).json({ users: usersCount, files: filesCount });
       } catch (error) {
         console.error('Error fetching stats:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
       }
     }
   },

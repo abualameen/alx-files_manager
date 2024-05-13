@@ -8,7 +8,6 @@ const UsersController = {
   postNew: async (req, res) => {
     try {
       const { email, password } = req.body;
-      console.log(`this is the ${email}`);
 
       if (!email) {
         return res.status(400).send({ error: 'Missing email' });
@@ -27,7 +26,7 @@ const UsersController = {
 
       const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
       const newUser = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-      userQueue.add({ userId: newUser._id });
+      userQueue.add({ userId: newUser.insertedId });
       return res.status(201).json({ id: newUser.insertedId, email });
     } catch (error) {
       console.error('Error creating user:', error);
@@ -38,24 +37,19 @@ const UsersController = {
   getMe: async (req, res) => {
     const token = req.headers['x-token']; // Ensure correct header case
     if (!token) {
-      console.log('toke1');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
     try {
       const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
-      console.log(`user id : ${userId}`);
+      
       if (!userId) {
-        console.log('toke2');
         return res.status(401).json({ error: 'Unauthorized' });
       }
       const objectIdUserId = ObjectId(userId);
-      // Retrieve user object from the database based on the user ID
-      // const user = await dbClient.db.collection('users').findOne({ _id: userId });
       const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
 
       if (!user) {
-        console.log('toke3');
         return res.status(401).json({ error: 'Unauthorized' });
       }
 
