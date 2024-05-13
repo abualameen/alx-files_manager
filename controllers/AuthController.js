@@ -17,21 +17,21 @@ const AuthController = {
     if (!email || !password) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-        try {
-            const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
-            const user = await dbClient.db.collection('users').findOne({ email });
-            // const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
-            if (!user) {
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
-            if (user.password !== hashedPassword) {
-                return res.status(401).json({ error: 'Unauthorized' });
-            }
-            const token = uuidv4();
-            const key = `auth_${token}`;
-            const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
-            const userId = newUserResult.insertedId;
-            await redisClient.set(key, userId.toString(), 24 * 60 * 60); // En
+    try {
+      const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
+      const user = await dbClient.db.collection('users').findOne({ email });
+      // const user = await dbClient.getUserByEmailAndPassword(email, hashedPassword);
+      if (!user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      if (user.password !== hashedPassword) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const token = uuidv4();
+      const key = `auth_${token}`;
+      const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
+      const userId = newUserResult.insertedId;
+      await redisClient.set(key, userId.toString(), 24 * 60 * 60); // En
 
       // await redisClient.set(key, user.insertedId, 'EX', 24 * 60 * 60); // Expire in 24 hours
 
