@@ -30,7 +30,11 @@ const AuthController = {
             }
             const token = uuidv4();
             const key = `auth_${token}`;
-            await redisClient.set(key, user.insertedId, 'EX', 24 * 60 * 60); // Expire in 24 hours
+            const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
+            const userId = newUserResult.insertedId;
+            await redisClient.set(key, userId.toString(), 'EX', 24 * 60 * 60); // Ensure userId is converted to string
+
+            // await redisClient.set(key, user.insertedId, 'EX', 24 * 60 * 60); // Expire in 24 hours
 
             return res.status(200).json({ token });
         } catch (error) {
