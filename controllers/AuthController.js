@@ -25,7 +25,9 @@ const AuthController = {
             if (!user) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-
+            if (!user.id === hashedPassword) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
             const token = uuidv4();
             const key = `auth_${token}`;
             await redisClient.set(key, user.id, 'EX', 24 * 60 * 60); // Expire in 24 hours
