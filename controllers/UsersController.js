@@ -29,32 +29,32 @@ const UsersController = {
     },
 
     getMe: async (req, res) => {
-        const token = req.headers['X-Token'];
+        const token = req.headers['x-token']; // Ensure correct header case
         if (!token) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
-
+    
         try {
-        // const key = `auth_${token}`;
-        // const userId = await redisClient.get(key);
-        // if (!userId) {
-        //     return res.status(401).json({ error: 'Unauthorized' });
-        // }
-
-            // const user = await dbClient.getUserByToken(token);
-            const user = this.db.collection('users').findOne({ token });
-            // const user = await usersCollection.findOne({ token });
-            // const user = await dbClient.db.collection('users').findOne({ userId });
+            const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
+            if (!userId) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+    
+            // Retrieve user object from the database based on the user ID
+            const user = await dbClient.db.collection('users').findOne({ _id: userId });
+    
             if (!user) {
                 return res.status(401).json({ error: 'Unauthorized' });
-        }
-
-        return res.status(200).json({ id: user.id, email: user.email });
+            }
+    
+            // Return only the id and email fields of the user object
+            return res.status(200).json({ id: user._id, email: user.email });
         } catch (error) {
-        console.error('Error retrieving user:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error retrieving user:', error);
+            return res.status(500).json({ error: 'Internal Server Error' });
         }
     },
+    
 };
 
 module.exports = UsersController;
