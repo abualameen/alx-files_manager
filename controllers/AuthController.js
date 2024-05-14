@@ -31,7 +31,7 @@ const AuthController = {
       const key = `auth_${token}`;
       // const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
       const userId = user.insertedId;
-      await redisClient.set(key, userId.toString(), 24 * 60 * 60); // En
+      await redisClient.set(key, userId, 24 * 60 * 60); // En
       // await redisClient.set(key, userId, 24 * 60 * 60); // En
 
       // await redisClient.set(key, user.insertedId, 'EX', 24 * 60 * 60); // Expire in 24 hours
