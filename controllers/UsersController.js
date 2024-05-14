@@ -8,6 +8,9 @@ const UsersController = {
   postNew: async (req, res) => {
     try {
       const { email, password } = req.body;
+      if (!email && !password) {
+        return res.status(400).send({ error: 'Missing email and Missing password' });
+      }
 
       if (!email) {
         return res.status(400).send({ error: 'Missing email' });
@@ -15,9 +18,7 @@ const UsersController = {
       if (!password) {
         return res.status(400).send({ error: 'Missing password' });
       }
-      if (!email && !password) {
-        return res.status(400).send({ error: 'Missing email and Missing password' });
-      }
+     
 
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
