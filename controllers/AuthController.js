@@ -56,7 +56,7 @@ const AuthController = {
       }
 
       await redisClient.del(key);
-      return res.status(204).send();
+      return res.status(204).json();
     } catch (error) {
       console.error('Error signing out user:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
