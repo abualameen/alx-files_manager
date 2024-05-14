@@ -49,6 +49,7 @@ const FilesController = {
     const {
       name, type, parentId = 0, isPublic = false, data,
     } = req.body;
+    console.log(`this is body: ${req.body}`)
 
     // Validate request parameters
     if (!name) {
