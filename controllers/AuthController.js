@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 const redisClient = require('../utils/redis');
 const dbClient = require('../utils/db');
+const { log } = require('console');
 
 const AuthController = {
   getConnect: async (req, res) => {
@@ -31,6 +32,7 @@ const AuthController = {
       const key = `auth_${token}`;
       // const newUserResult = await dbClient.db.collection('users').insertOne({ email, password: hashedPassword });
       const userId = user.insertedId;
+      console.log(`this is id: ${userId}`);
       await redisClient.set(key, userId, 24 * 60 * 60); // En
       // await redisClient.set(key, userId, 24 * 60 * 60); // En
 
