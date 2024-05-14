@@ -66,19 +66,18 @@ const FilesController = {
       let parentFile;
       try {
         parentFile = await dbClient.db.collection('files').findOne({ _id: ObjectId(parentId) });
+        if (!parentFile) {
+          return res.status(400).json({ error: 'Parent not found' });
+        }
+        if (parentFile.type !== 'folder') {
+          return res.status(400).json({ error: 'Parent is not a folder' });
+        }
       } catch (error) {
         console.error('Error retrieving parent file:', error);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-
-      if (!parentFile) {
-        return res.status(400).json({ error: 'Parent not found' });
-      }
-
-      if (parentFile.type !== 'folder') {
-        return res.status(400).json({ error: 'Parent is not a folder' });
+        return res.status(400).json({ error: 'Invalid parent ID' });
       }
     }
+    
 
     try {
       // Save file to database and disk
