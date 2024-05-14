@@ -42,12 +42,11 @@ const UsersController = {
 
     try {
       const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
-
       if (!userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
       const objectIdUserId = ObjectId(userId);
-      const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+      const user = await dbClient.db.collection('users').findOne({ userId });
 
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized' });
