@@ -22,4 +22,4 @@ response = requests.post('http://0.0.0.0:5000/files', headers=headers, data=json
 
 # r = requests.post("http://0.0.0.0:5000/files", json=r_json, headers=r_headers)
 # print('rrr', r.text)
-print(r.json())
+print(response.json())
