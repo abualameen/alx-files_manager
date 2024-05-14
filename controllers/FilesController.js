@@ -22,6 +22,7 @@ const FilesController = {
     let user;
     try {
       user = await dbClient.db.collection('users').findOne({ token });
+      console.log(`found ${user}`);
     } catch (error) {
       console.error('Error retrieving user:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
