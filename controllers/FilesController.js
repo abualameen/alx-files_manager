@@ -5,6 +5,7 @@ const mime = require('mime-types');
 const Bull = require('bull');
 // const imageThumbnail = require('image-thumbnail');
 const dbClient = require('../utils/db');
+const dbClient = require('../utils/redis');
 
 // Bull queue
 const fileQueue = new Bull('fileQueue');
