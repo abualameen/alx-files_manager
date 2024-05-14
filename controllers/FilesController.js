@@ -46,11 +46,12 @@ const FilesController = {
     // }
 
     // Extract request parameters
+    console.log(`this is body: ${req.body}`);
+    console.log(`this is name: ${req.body.name}`);
     const {
       name, type, parentId = 0, isPublic = false, data,
     } = req.body;
-    console.log(`this is body: ${req.body}`);
-    console.log(`this is name: ${req.body.name}`);
+  
 
     // Validate request parameters
     if (!name) {
