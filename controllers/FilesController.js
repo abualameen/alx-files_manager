@@ -20,7 +20,7 @@ const FilesController = {
     }
 
     // Retrieve user based on token
-    // let user;
+    let user;
     try {
       const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
       console.log(`this is the useid: ${userId}`);
@@ -29,7 +29,7 @@ const FilesController = {
       }
       const objectIdUserId = ObjectId(userId);
       console.log(`objeciddd ${objectIdUserId}`);
-      const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+      user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
       console.log(`found ${user}`);
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized' });
