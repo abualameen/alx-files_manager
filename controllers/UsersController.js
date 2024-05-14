@@ -18,7 +18,6 @@ const UsersController = {
       if (!password) {
         return res.status(400).json({ error: 'Missing password' });
       }
-     
 
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
@@ -43,7 +42,7 @@ const UsersController = {
 
     try {
       const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
-      
+
       if (!userId) {
         return res.status(401).json({ error: 'Unauthorized' });
       }
