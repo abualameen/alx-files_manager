@@ -21,17 +21,19 @@ const FilesController = {
     // Retrieve user based on token
     // let user;
     try {
-      // const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
-      // if (!userId) {
-      //   return res.status(401).json({ error: 'Unauthorized' });
-      // }
-      // const objectIdUserId = ObjectId(userId);
-      // const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
-
-      // if (!user) {
-      //   return res.status(401).json({ error: 'Unauthorized' });
-      // }
-      const user = await dbClient.db.collection('users').findOne({ token });
+      const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
+      console.log(`this is the useid: ${userId}`);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const objectIdUserId = ObjectId(userId);
+      console.log(`objeciddd ${objectIdUserId}`);
+      const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+      console.log(`found ${user}`);
+      if (!user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      // const user = await dbClient.db.collection('users').findOne({ token });
       console.log(`found ${user}`);
     } catch (error) {
       console.error('Error retrieving user:', error);
