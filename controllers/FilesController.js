@@ -19,18 +19,28 @@ const FilesController = {
     }
 
     // Retrieve user based on token
-    let user;
+    // let user;
     try {
-      user = await dbClient.db.collection('users').findOne({ token });
+      // const userId = await redisClient.get(`auth_${token}`); // Retrieve user ID from Redis
+      // if (!userId) {
+      //   return res.status(401).json({ error: 'Unauthorized' });
+      // }
+      // const objectIdUserId = ObjectId(userId);
+      // const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+
+      // if (!user) {
+      //   return res.status(401).json({ error: 'Unauthorized' });
+      // }
+      const user = await dbClient.db.collection('users').findOne({ token });
       console.log(`found ${user}`);
     } catch (error) {
       console.error('Error retrieving user:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 
-    if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    // if (!user) {
+    //   return res.status(401).json({ error: 'Unauthorized' });
+    // }
 
     // Extract request parameters
     const {
@@ -42,7 +52,7 @@ const FilesController = {
       return res.status(400).json({ error: 'Missing name' });
     }
     if (!type || !['folder', 'file', 'image'].includes(type)) {
-      return res.status(400).json({ error: 'Missing type or invalid type' });
+      return res.status(400).json({ error: 'Missing type' });
     }
     if (!data && type !== 'folder') {
       return res.status(400).json({ error: 'Missing data' });
