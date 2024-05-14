@@ -49,7 +49,7 @@ const UsersController = {
         return res.status(401).json({ error: 'Unauthorized' });
       }
       const objectIdUserId = ObjectId(userId);
-      const user = await dbClient.db.collection('users').findOne({ _id: objectIdUserId });
+      const user = await dbClient.db.collection('users').findOne({ _id: userId });
 
       if (!user) {
         return res.status(401).json({ error: 'Unauthorized' });
