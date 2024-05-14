@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const dbClient = require('../utils/db');
 const redisClient = require('../utils/redis');
-const { userQueue } = require('../worker');
+// const { userQueue } = require('../worker');
 
 const UsersController = {
   postNew: async (req, res) => {
