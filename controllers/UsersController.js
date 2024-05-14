@@ -9,20 +9,20 @@ const UsersController = {
     try {
       const { email, password } = req.body;
       if (!email && !password) {
-        return res.status(400).send({ error: 'Missing email and Missing password' });
+        return res.status(400).json({ error: 'Missing email and Missing password' });
       }
 
       if (!email) {
-        return res.status(400).send({ error: 'Missing email' });
+        return res.status(400).json({ error: 'Missing email' });
       }
       if (!password) {
-        return res.status(400).send({ error: 'Missing password' });
+        return res.status(400).json({ error: 'Missing password' });
       }
      
 
       const existingUser = await dbClient.db.collection('users').findOne({ email });
       if (existingUser) {
-        return res.status(400).send({ error: 'Already exist' });
+        return res.status(400).json({ error: 'Already exist' });
       }
 
       const hashedPassword = crypto.createHash('sha1').update(password).digest('hex');
