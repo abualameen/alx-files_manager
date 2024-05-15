@@ -1,8 +1,8 @@
-const crypto = require('crypto');
-const { ObjectId } = require('mongodb');
-const dbClient = require('../utils/db');
-const redisClient = require('../utils/redis');
-// const { userQueue } = require('../worker');
+import crypto from 'crypto';
+import { ObjectId } from 'mongodb';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
+// import userQueue from require('../worker');
 
 const UsersController = {
   postNew: async (req, res) => {
@@ -65,4 +65,4 @@ const UsersController = {
 
 };
 
-module.exports = UsersController;
+export default UsersController;

@@ -1,5 +1,6 @@
-const request = require('supertest');
-const app = require('../app');
+import request from 'supertest';
+import app from '../app';
+
 
 // Test suite for GET /status endpoint
 describe('GET /status', () => {

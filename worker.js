@@ -1,8 +1,8 @@
-const Bull = require('bull');
-const imageThumbnail = require('image-thumbnail');
-const fs = require('fs');
-const { ObjectId } = require('mongodb');
-const dbClient = require('./utils/db');
+import Bull from 'bull';
+import imageThumbnail from 'image-thumbnail';
+import fs from 'fs';
+import { ObjectId } from 'mongodb';
+import dbClient from './utils/db';
 
 // Create a Bull queue
 const fileQueue = new Bull('fileQueue');
@@ -36,4 +36,4 @@ fileQueue.process(async (job) => {
   return send.end();
 });
 
-module.exports = fileQueue;
+export default fileQueue;

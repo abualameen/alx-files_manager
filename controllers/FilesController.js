@@ -1,11 +1,12 @@
-const fs = require('fs');
-const path = require('path');
-const { ObjectId } = require('mongodb');
-const mime = require('mime-types');
-const Bull = require('bull');
-// const imageThumbnail = require('image-thumbnail');
-const dbClient = require('../utils/db');
-const redisClient = require('../utils/redis');
+import fs from 'fs';
+import path from 'path';
+import { ObjectId } from 'mongodb';
+import mime from 'mime-types';
+import Bull from 'bull';
+// import imageThumbnail from 'image-thumbnail';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
+
 
 // Bull queue
 const fileQueue = new Bull('fileQueue');
@@ -368,4 +369,4 @@ const FilesController = {
 
 };
 
-module.exports = FilesController;
+export default FilesController;

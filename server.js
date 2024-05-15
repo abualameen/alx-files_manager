@@ -1,9 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const routes = require('./routes/index');
+import express from 'express';
+import bodyParser from 'body-parser';
+import routes from './routes/index';
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
 const PORT = process.env.PORT || 5000;
 
 
