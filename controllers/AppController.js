@@ -18,16 +18,16 @@ const AppController = {
     }
   },
   getStats: async (req, res) => {
-    if (dbClient.isAlive()) {
-      try {
-        const usersCount = await dbClient.nbUsers();
-        const filesCount = await dbClient.nbFiles();
-        return res.status(200).json({ users: usersCount, files: filesCount });
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-        return res.status(500).json({ error: 'Internal server error' });
-      }
+    // if (dbClient.isAlive()) {
+    try {
+      const usersCount = await dbClient.nbUsers();
+      const filesCount = await dbClient.nbFiles();
+      return res.status(200).json({ users: usersCount, files: filesCount });
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+      return res.status(500).json({ error: 'Internal server error' });
     }
+    // }
   },
 };
 
