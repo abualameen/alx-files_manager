@@ -1,6 +1,5 @@
-import dbClient from '../utils/db';
-import redisClient from '../utils/redis';
-
+const redisClient = require('../utils/redis');
+const dbClient = require('../utils/db');
 
 const AppController = {
   getStatus: async (req, res) => {
@@ -34,4 +33,4 @@ const AppController = {
   },
 };
 
-export default AppController;
+module.exports = AppController;
