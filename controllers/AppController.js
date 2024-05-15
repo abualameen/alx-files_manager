@@ -4,8 +4,8 @@ import dbClient from '../utils/db';
 const AppController = {
   getStatus: async (req, res) => {
     try {
-      const isRedisAlive = await redisClient.isAlive();
-      const isDBAlive = await dbClient.isAlive();
+      const isRedisAlive = redisClient.isAlive();
+      const isDBAlive = dbClient.isAlive();
 
       if (isRedisAlive && isDBAlive) {
         return res.status(200).json({ redis: isRedisAlive, db: isDBAlive });
