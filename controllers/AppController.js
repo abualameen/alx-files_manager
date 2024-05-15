@@ -24,7 +24,7 @@ const AppController = {
         const filesCount = await dbClient.nbFiles();
         return res.status(200).json({ users: usersCount, files: filesCount });
       } else {
-        throw new Error('Database is not alive');
+        return res.status(500).json({ error: 'Internal server error' });
       }
     } catch (error) {
       console.error('Error fetching stats:', error);
