@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 const routes = require('./routes/index');
 
 const app = express();
+app.use(express.json());
 const PORT = process.env.PORT || 5000;
 
-app.use(bodyParser.json());
+
 app.use('/', routes);
 
 app.listen(PORT, () => {
